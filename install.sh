@@ -99,28 +99,56 @@ install_system_requirements() {
     sudo apt update
     sudo apt upgrade -y
     
+    # Track failed packages
+    FAILED_PACKAGES=()
+    
     # Read and install packages from apt-requirements.txt
     while IFS= read -r package || [[ -n "$package" ]]; do
         if [[ ! "$package" =~ ^#.*$ ]] && [[ ! -z "$package" ]]; then
             echo -e "${BLUE}Installing $package...${NC}"
-            sudo apt install -y "$package" || {
+            if ! sudo apt install -y "$package"; then
                 echo -e "${RED}Failed to install $package${NC}"
-                exit 1
-            }
+                FAILED_PACKAGES+=("$package")
+            fi
         fi
     done < apt-requirements.txt
+    
+    # Report failed packages
+    if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
+        echo -e "\n${YELLOW}The following packages failed to install:${NC}"
+        for pkg in "${FAILED_PACKAGES[@]}"; do
+            echo -e "${RED}- $pkg${NC}"
+        done
+    fi
 }
 
 # Install Python packages
 install_python_packages() {
     print_step "Installing Python packages"
-    pip3 install -r pip-requirements.txt || {
-        echo -e "${YELLOW}Retrying with --break-system-packages option...${NC}"
-        pip3 install --break-system-packages -r pip-requirements.txt || {
-            echo -e "${RED}Failed to install Python packages even with --break-system-packages${NC}"
-            exit 1
-        }
-    }
+    
+    # Track failed packages
+    FAILED_PYTHON_PACKAGES=()
+    
+    while IFS= read -r package || [[ -n "$package" ]]; do
+        if [[ ! "$package" =~ ^#.*$ ]] && [[ ! -z "$package" ]]; then
+            echo -e "${BLUE}Installing $package...${NC}"
+            if ! pip3 install "$package"; then
+                echo -e "${YELLOW}Retrying $package with --break-system-packages...${NC}"
+                if ! pip3 install --break-system-packages "$package"; then
+                    echo -e "${RED}Failed to install Python package: $package${NC}"
+                    FAILED_PYTHON_PACKAGES+=("$package")
+                fi
+            fi
+        fi
+    done < pip-requirements.txt
+    
+    # Report failed packages
+    if [ ${#FAILED_PYTHON_PACKAGES[@]} -gt 0 ]; then
+        echo -e "\n${YELLOW}The following Python packages failed to install:${NC}"
+        for pkg in "${FAILED_PYTHON_PACKAGES[@]}"; do
+            echo -e "${RED}- $pkg${NC}"
+        done
+    fi
 }
 
 # Setup Node.js
@@ -236,6 +264,21 @@ main() {
     echo -e "${GREEN}✓${NC} Node.js $(node -v) installed"
     echo -e "${GREEN}✓${NC} Dotfiles copied to $HOME"
     echo -e "${GREEN}✓${NC} Bash configuration updated"
+    
+    # Report any failed installations
+    if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
+        echo -e "\n${RED}The following apt packages failed to install:${NC}"
+        for pkg in "${FAILED_PACKAGES[@]}"; do
+            echo -e "${RED}- $pkg${NC}"
+        done
+    fi
+    
+    if [ ${#FAILED_PYTHON_PACKAGES[@]} -gt 0 ]; then
+        echo -e "\n${RED}The following Python packages failed to install:${NC}"
+        for pkg in "${FAILED_PYTHON_PACKAGES[@]}"; do
+            echo -e "${RED}- $pkg${NC}"
+        done
+    fi
 }
 
 # Run main installation
