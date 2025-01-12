@@ -73,8 +73,9 @@ confirm() {
     if [ "$AUTO_CONTINUE" = true ]; then
         return 0
     fi
-    
-    read -p "Do you want to continue? [y/N] " response
+
+    printf "${RED}This may overwrite existing dotfiles. Do you want to continue? [y/N]${NC} "
+    read response
     if [[ ! "$response" =~ ^[Yy]$ ]]; then
         echo "Installation aborted."
         exit 1
