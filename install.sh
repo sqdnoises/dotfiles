@@ -37,6 +37,7 @@ print_banner() {
     echo "======================================"
     echo "            sqd's dotfiles"
     echo "======================================"
+    echo "Go grab a popcorn, this will take a while."
     echo -e "${NC}"
     echo "This script will:"
     echo "1. Install system requirements"
