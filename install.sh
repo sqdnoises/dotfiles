@@ -268,14 +268,14 @@ main() {
     
     # Report any failed installations
     if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
-        echo -e "\n${RED}The following apt packages failed to install:${NC}"
+        echo -e "\n${YELLOW}The following apt packages failed to install:${NC}"
         for pkg in "${FAILED_PACKAGES[@]}"; do
             echo -e "${RED}- $pkg${NC}"
         done
     fi
     
     if [ ${#FAILED_PYTHON_PACKAGES[@]} -gt 0 ]; then
-        echo -e "\n${RED}The following Python packages failed to install:${NC}"
+        echo -e "\n${YELLOW}The following Python packages failed to install:${NC}"
         for pkg in "${FAILED_PYTHON_PACKAGES[@]}"; do
             echo -e "${RED}- $pkg${NC}"
         done
