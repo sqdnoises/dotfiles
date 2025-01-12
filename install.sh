@@ -174,6 +174,23 @@ setup_node() {
     rm nodesource_setup.sh
 }
 
+# Setup pnpm
+setup_pnpm() {
+    print_step "Setting up pnpm"
+    
+    # Install pnpm via the official script
+    curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=10.0.0 sh - || {
+        echo -e "${RED}Failed to install pnpm${NC}"
+        exit 1
+    }
+    
+    # Add pnpm to the PATH for immediate use
+    export PATH="$HOME/.local/share/pnpm:$PATH"
+    
+    # Verify installation
+    echo "pnpm version: $(pnpm -v)"
+}
+
 # Copy dotfiles
 copy_dotfiles() {
     print_step "Copying dotfiles"
@@ -240,7 +257,6 @@ update_system() {
     sudo apt autoclean -y
 }
 
-# Main installation
 main() {
     print_banner
     check_ubuntu
@@ -250,6 +266,7 @@ main() {
     install_system_requirements
     install_python_packages
     setup_node
+    setup_pnpm
     update_system
     copy_dotfiles
     setup_bash
@@ -263,6 +280,7 @@ main() {
     echo -e "${GREEN}✓${NC} $(python3 -V) installed"
     echo -e "${GREEN}✓${NC} Python packages installed"
     echo -e "${GREEN}✓${NC} Node.js $(node -v) installed"
+    echo -e "${GREEN}✓${NC} pnpm $(pnpm -v) installed"
     echo -e "${GREEN}✓${NC} Dotfiles copied to $HOME"
     echo -e "${GREEN}✓${NC} Bash configuration updated"
     
