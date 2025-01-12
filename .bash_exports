@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# export PATH= stuff goes in ~/.bash_paths
+
+# WSL
+if grep -qEi "(Microsoft|WSL)" /proc/version 2>/dev/null; then
+    export EDITOR="code"
+else
+    export EDITOR="nano"
+fi
+
+# Useful exports
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTCONTROL=ignoreboth:erasedups

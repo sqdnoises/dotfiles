@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Set custom prompt
+# export PS1=""

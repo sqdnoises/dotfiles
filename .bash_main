@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Main configuration file that sources all other files if they exist
+source_if_exists() {
+    local file="$1"
+    if [ -f "$file" ]; then
+        source "$file"
+    fi
+}
+
+# Check and source configuration files
+source_if_exists ~/.bash_aliases
+source_if_exists ~/.bash_exports
+source_if_exists ~/.bash_paths
+source_if_exists ~/.bash_prompt
