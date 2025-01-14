@@ -134,9 +134,9 @@ install_python_packages() {
     while IFS= read -r package || [[ -n "$package" ]]; do
         if [[ ! "$package" =~ ^#.*$ ]] && [[ ! -z "$package" ]]; then
             echo -e "${BLUE}Installing $package...${NC}"
-            if ! pip3 install "$package"; then
+            if ! pip3 install -U "$package"; then
                 echo -e "${YELLOW}Retrying $package with --break-system-packages...${NC}"
-                if ! pip3 install --break-system-packages "$package"; then
+                if ! pip3 install --break-system-packages -U "$package"; then
                     echo -e "${RED}Failed to install Python package: $package${NC}"
                     FAILED_PYTHON_PACKAGES+=("$package")
                 fi
