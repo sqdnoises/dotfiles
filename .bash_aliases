@@ -26,9 +26,6 @@ alias la="ls -lAF"
 # List only directories
 alias lsd="ls -lF | grep --color=never '^d'"
 
-# Always use color output for `ls`
-alias ls="command ls ${colorflag}"
-
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
 alias grep="grep --color=auto"
