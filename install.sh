@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
 
-# Ensure the script has sudo permissions upfront
-if ! sudo -v; then
-    echo "This script requires sudo permissions. Please run it with a user that has sudo access."
-    exit 1
-fi
-
-# Keep sudo active during the script's execution
-while true; do
-    sudo -n true
-    sleep 60
-    kill -0 "$$" || exit
-done 2>/dev/null &
-
 # Colors
 RED="\033[1;31m"
 GREEN="\033[1;32m"
 BLUE="\033[1;34m"
 YELLOW="\033[1;33m"
 NC="\033[0m"
+
+# Parse command line arguments
+SKIP_CONFIRM=false
+DOTFILES_ONLY=false
+
+for arg in "$@"; do
+    case $arg in
+        -y|--yes)
+            SKIP_CONFIRM=true
+            ;;
+        -d|--dotfiles-only)
+            DOTFILES_ONLY=true
+            ;;
+    esac
+done
 
 # Trap to handle Ctrl+C
 trap ctrl_c SIGINT
@@ -37,19 +39,27 @@ print_banner() {
     echo "======================================"
     echo "            sqd's dotfiles"
     echo "======================================"
-    echo "Go grab a popcorn, this will take a while."
-    echo -e "${NC}"
-    echo "This script will:"
-    echo "1. Install system requirements"
-    echo "2. Install Python packages"
-    echo "3. Setup Node.js environment"
-    echo "4. Configure dotfiles"
-    echo ""
-    echo -e "${YELLOW}Note: This script will require sudo permissions.${NC}"
+    if [ "$DOTFILES_ONLY" = true ]; then
+        echo "Dotfiles-only mode: will only copy dotfiles"
+    else
+        echo "Go grab a popcorn, this will take a while."
+        echo -e "${NC}"
+        echo "This script will:"
+        echo "1. Install system requirements"
+        echo "2. Install Python packages"
+        echo "3. Setup Node.js environment"
+        echo "4. Configure dotfiles"
+        echo ""
+        echo -e "${YELLOW}Note: This script will require sudo permissions.${NC}"
+    fi
 }
 
 # Check if Ubuntu is running
 check_ubuntu() {
+    if [ "$DOTFILES_ONLY" = true ]; then
+        return
+    fi
+    
     if [ -f "/etc/os-release" ]; then
         . /etc/os-release
         if [[ "$ID" == "ubuntu" ]]; then
@@ -62,15 +72,9 @@ check_ubuntu() {
     fi
 }
 
-# Check if running with -y flag
-AUTO_CONTINUE=false
-if [[ "$1" == "-y" ]]; then
-    AUTO_CONTINUE=true
-fi
-
 # Ask for confirmation
 confirm() {
-    if [ "$AUTO_CONTINUE" = true ]; then
+    if [ "$SKIP_CONFIRM" = true ]; then
         return 0
     fi
 
@@ -85,6 +89,23 @@ confirm() {
 # Print step header
 print_step() {
     echo -e "\n${YELLOW}==> $1${NC}"
+}
+
+# Setup sudo permissions only when needed
+setup_sudo() {
+    if [ "$DOTFILES_ONLY" = false ]; then
+        if ! sudo -v; then
+            echo "This script requires sudo permissions for full installation. Please run it with a user that has sudo access."
+            exit 1
+        fi
+
+        # Keep sudo active during the script's execution
+        while true; do
+            sudo -n true
+            sleep 60
+            kill -0 "$$" || exit
+        done 2>/dev/null &
+    fi
 }
 
 # Add FastFetch PPA
@@ -199,6 +220,9 @@ copy_dotfiles() {
     # Create array of files to exclude
     mapfile -t EXCLUDES < exclusions.txt
     
+    # Keep track of copied files
+    COPIED_FILES=()
+    
     # Copy all dotfiles
     for file in .*; do
         # Skip if file is in exclusions
@@ -216,6 +240,7 @@ copy_dotfiles() {
             echo -e "${RED}Failed to copy $file${NC}"
             exit 1
         }
+        COPIED_FILES+=("$file")
         echo "Copied $file to $HOME/"
     done
 }
@@ -239,23 +264,42 @@ setup_bash() {
     fi
 }
 
-update_system() {
-    print_step "Updating system"
-
-    echo "Updating packages..."
-    sudo apt update
-
-    echo "Upgrading packages..."
-    sudo apt upgrade -y
-    
-    echo "Autoremoving packages..."
-    sudo apt autoremove -y
-
-    echo "Cleaning packages..."
-    sudo apt clean -y
-    
-    echo "Autocleaning packages..."
-    sudo apt autoclean -y
+# Print installation summary
+print_summary() {
+    if [ "$DOTFILES_ONLY" = true ]; then
+        echo -e "\n${BLUE}Dotfiles Installation Summary:${NC}"
+        echo -e "${GREEN}✓${NC} Dotfiles copied to $HOME:"
+        for file in "${COPIED_FILES[@]}"; do
+            echo "  - $file"
+        done
+        echo -e "\nTotal files copied: ${#COPIED_FILES[@]}"
+    else
+        echo -e "\n${BLUE}Installation Summary:${NC}"
+        echo -e "${GREEN}✓${NC} System packages installed"
+        echo -e "${GREEN}✓${NC} $(python3 -V) installed"
+        echo -e "${GREEN}✓${NC} Python packages installed"
+        echo -e "${GREEN}✓${NC} Node.js $(node -v) installed"
+        echo -e "${GREEN}✓${NC} pnpm $(pnpm -v) installed"
+        echo -e "${GREEN}✓${NC} ${#COPIED_FILES[@]} dotfiles copied to $HOME:"
+        for file in "${COPIED_FILES[@]}"; do
+            echo "  - $file"
+        done
+        
+        # Report any failed installations
+        if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
+            echo -e "\n${YELLOW}The following apt packages failed to install:${NC}"
+            for pkg in "${FAILED_PACKAGES[@]}"; do
+                echo -e "${RED}- $pkg${NC}"
+            done
+        fi
+        
+        if [ ${#FAILED_PYTHON_PACKAGES[@]} -gt 0 ]; then
+            echo -e "\n${YELLOW}The following Python packages failed to install:${NC}"
+            for pkg in "${FAILED_PYTHON_PACKAGES[@]}"; do
+                echo -e "${RED}- $pkg${NC}"
+            done
+        fi
+    fi
 }
 
 main() {
@@ -263,41 +307,26 @@ main() {
     check_ubuntu
     confirm
     
-    setup_fastfetch
-    install_system_requirements
-    install_python_packages
-    setup_node
-    setup_pnpm
-    update_system
-    copy_dotfiles
-    setup_bash
-    
-    echo -e "\n${GREEN}Installation completed successfully!${NC}"
-    echo "Please restart your terminal or run \`source ~/.bashrc\` to apply changes."
-    
-    # Print summary
-    echo -e "\n${BLUE}Installation Summary:${NC}"
-    echo -e "${GREEN}✓${NC} System packages installed"
-    echo -e "${GREEN}✓${NC} $(python3 -V) installed"
-    echo -e "${GREEN}✓${NC} Python packages installed"
-    echo -e "${GREEN}✓${NC} Node.js $(node -v) installed"
-    echo -e "${GREEN}✓${NC} pnpm $(pnpm -v) installed"
-    echo -e "${GREEN}✓${NC} Dotfiles copied to $HOME"
-    echo -e "${GREEN}✓${NC} Bash configuration updated"
-    
-    # Report any failed installations
-    if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
-        echo -e "\n${YELLOW}The following apt packages failed to install:${NC}"
-        for pkg in "${FAILED_PACKAGES[@]}"; do
-            echo -e "${RED}- $pkg${NC}"
-        done
-    fi
-    
-    if [ ${#FAILED_PYTHON_PACKAGES[@]} -gt 0 ]; then
-        echo -e "\n${YELLOW}The following Python packages failed to install:${NC}"
-        for pkg in "${FAILED_PYTHON_PACKAGES[@]}"; do
-            echo -e "${RED}- $pkg${NC}"
-        done
+    if [ "$DOTFILES_ONLY" = true ]; then
+        copy_dotfiles
+        setup_bash
+        echo -e "\n${GREEN}Dotfiles installation completed successfully!${NC}"
+        print_summary
+        echo -e "\nPlease restart your terminal or run \`source ~/.bashrc\` to apply changes."
+    else
+        setup_sudo
+        setup_fastfetch
+        install_system_requirements
+        install_python_packages
+        setup_node
+        setup_pnpm
+        update_system
+        copy_dotfiles
+        setup_bash
+        
+        echo -e "\n${GREEN}Installation completed successfully!${NC}"
+        print_summary
+        echo -e "\nPlease restart your terminal or run \`source ~/.bashrc\` to apply changes."
     fi
 }
 
