@@ -49,6 +49,7 @@ print_banner() {
         echo "2. Install Python packages"
         echo "3. Setup Node.js environment"
         echo "4. Configure dotfiles"
+        echo "5. Update system packages"
         echo ""
         echo -e "${YELLOW}Note: This script will require sudo permissions.${NC}"
     fi
@@ -264,6 +265,26 @@ setup_bash() {
     fi
 }
 
+# Update system packages
+update_system() {
+    print_step "Updating system packages"
+
+    echo "Updating packages..."
+    sudo apt update
+
+    echo "Upgrading packages..."
+    sudo apt upgrade -y
+
+    echo "Autoremoving packages..."
+    sudo apt autoremove -y
+
+    echo "Cleaning packages..."
+    sudo apt clean -y
+
+    echo "Autocleaning packages..."
+    sudo apt autoclean -y
+}
+
 # Print installation summary
 print_summary() {
     if [ "$DOTFILES_ONLY" = true ]; then
@@ -284,6 +305,7 @@ print_summary() {
         for file in "${COPIED_FILES[@]}"; do
             echo "  - $file"
         done
+        echo -e "${GREEN}✓${NC} Updated system packages"
         
         # Report any failed installations
         if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
