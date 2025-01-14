@@ -1,5 +1,6 @@
 .git
 .gitignore
+.history
 README.md
 install.sh
 apt-requirements.txt
