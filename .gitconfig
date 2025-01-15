@@ -3,6 +3,7 @@
     email = 85015626+sqdnoises@users.noreply.github.com
 [init]
     defaultBranch = main
+[alias]
     amend = commit --amend
 [color]
     ui = auto  # Enable colored output
