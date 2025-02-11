@@ -19,7 +19,7 @@ dotfiles/
 
 ## Setup
 ### Prerequisites
-- Linux-based system (Debian/Ubuntu recommended)
+- Linux-based system (Debian/Ubuntu)
 - `sudo` privileges for installing packages
 
 ### Installation
@@ -38,6 +38,20 @@ dotfiles/
    source ~/.bashrc
    ```
 
+4. Delete the newly created `dotfiles` directory: (optional)
+    ```bash
+    rm -rf ~/dotfiles
+    ```
+
+- All in one of the above, accepting the confirmation prompt: (copy, paste and forget):
+   ```bash
+   git clone https://github.com/sqdnoises/dotfiles.git ~/dotfiles && cd ~/dotfiles
+   chmod +x ./install.sh && ./install.sh -y # -y flag for skipping confirmation prompt
+   source ~/.bashrc
+   rm -rf ~/dotfiles # optional
+   ```
+
+
 ### Flags
 - Use `-y` to skip confirmation prompts:
   ```bash
@@ -53,13 +67,13 @@ To add new dotfiles:
 2. Add any files you want to exclude to `exclusions.txt`.
 
 ### Python Packages
-Add Python package requirements to `pip-requirements.txt` in the following format:
+Add Python package requirements to `pip-requirements.txt` (one per line) in the following format:
 ```plaintext
 yt-dlp
 spotdl
 ```
 
-### System Packages
+### System Packages (apt)
 Add system packages to `apt-requirements.txt` (one per line).
 
 ---
