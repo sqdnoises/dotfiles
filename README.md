@@ -43,7 +43,7 @@ dotfiles/
     rm -rf ~/dotfiles
     ```
 
-- All in one of the above, accepting the confirmation prompt: (copy, paste and forget):
+- All in one of the above, skipping the confirmation prompt: (copy, paste and forget):
    ```bash
    git clone https://github.com/sqdnoises/dotfiles.git ~/dotfiles && cd ~/dotfiles
    chmod +x ./install.sh && ./install.sh -y # -y flag for skipping confirmation prompt
