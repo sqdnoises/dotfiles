@@ -1,5 +1,5 @@
 # sqdnoises/dotfiles
-Welcome to my dotfiles repository! This repository contains configurations and setup scripts for managing my development environment. It includes settings for bash, Python, Node.js, and many aliases.
+Welcome to my dotfiles repository! This repository contains configurations and setup scripts for managing my development environment. It includes settings for bash, git, Python, Node.js, and many aliases.
 
 ## Table of Contents
 1. [Included dotfiles](#included-dotfiles)
