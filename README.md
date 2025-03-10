@@ -5,7 +5,6 @@ Welcome to my dotfiles repository! This repository contains configurations and s
 1. [Included dotfiles](#included-dotfiles)
 2. [Setup](#setup)
 3. [Customization](#customization)
-4. [Future Additions](#future-additions)
 
 ## Included dotfiles
 ```python
