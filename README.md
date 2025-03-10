@@ -77,8 +77,8 @@ uv
 ```
 
 ### System Packages (apt)
-Add system packages to `apt-requirements.txt` (one per line) in the same format as [above](#python-packages).
+Add system packages to `apt-requirements.txt` (one per line) in the same format as above.
 
 ---
 
-💓
+💓 [back to top ↑](#top)
