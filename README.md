@@ -73,6 +73,7 @@ Add Python package requirements to `pip-requirements.txt` (one per line) in the 
 ```plaintext
 yt-dlp
 spotdl
+uv
 ```
 
 ### System Packages (apt)
