@@ -6,6 +6,9 @@ Welcome to my dotfiles repository! This repository contains configurations and s
 2. [Setup](#setup)
 3. [Customization](#customization)
 
+> [!NOTE]
+> Note to self: Use uv to install pip packages ig?
+
 ## Included dotfiles
 ```python
 dotfiles/
