@@ -1,3 +1,4 @@
 setuptools
 yt-dlp
 spotdl
+uv
