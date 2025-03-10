@@ -3,6 +3,7 @@ python3-pip
 python3-venv
 python3-full
 fastfetch
+neofetch
 ffmpeg
 nano
 git
