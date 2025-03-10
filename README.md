@@ -10,14 +10,16 @@ Welcome to my dotfiles repository! This repository contains configurations and s
 > Note to self: Use uv to install pip packages ig?
 
 ## Included dotfiles
-```python
+```bash
 dotfiles/
 ├── .bash_aliases  # Custom bash aliases
 ├── .bash_exports  # Exported environment variables
 ├── .bash_main     # Main bash configuration file
 ├── .bash_paths    # Path-related configurations
-└── .bash_prompt   # Custom bash prompt settings
+├── .bash_prompt   # Custom bash prompt settings
+└── .gitconfig     # Custom gitconfig (you might want to change this*)
 ```
+<sub>*my [`.gitconfig`](.gitconfig) contains my username and email for `git`. you might want to change it to your username and email if you don't wanna commit as me. or you can add `.gitconfig` to [`exclusions.txt`](exclusions.txt) and it should not put my gitconfig or replace yours if you have setup git before.</sub>
 
 ## Setup
 ### Prerequisites
