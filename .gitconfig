@@ -1,9 +1,12 @@
 [user]
     name = sqdnoises
     email = 85015626+sqdnoises@users.noreply.github.com
+    signingkey = /home/sqd/.ssh/id_ed25519.pub
 [init]
     defaultBranch = main
 [alias]
     amend = commit --amend
 [color]
     ui = auto  # Enable colored output
+[gpg]
+    format = ssh
