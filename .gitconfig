@@ -13,4 +13,4 @@
 [commit]
     gpgsign = true
 [format]
-  pretty = format:%C(yellow)commit [%C(brightyellow)%h%C(yellow)]%C(auto)%d %C(brightblue)%ar (%ai)%nby%C(#ed55de)% G? %C(brightgreen)%aN <%ae>%n%C(#f25a5a)>>> %C(reset)%s%n
+  pretty = "format:%C(yellow)commit [%C(brightyellow)%h%C(yellow)]%C(auto)%d %C(brightblue)%ar (%ai)%nby%C(#ed55de)% G? %C(brightgreen)%aN <%ae>%n%C(#f25a5a)>>> %C(reset)%s%n"
