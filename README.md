@@ -83,4 +83,4 @@ Add system packages to `apt-requirements.txt` (one per line) in the same format 
 
 ---
 
-💓 [back to top ↑](#top)
+<sub>💓 [back to top ↑](#top)</sub>
