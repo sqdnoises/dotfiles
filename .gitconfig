@@ -1,5 +1,5 @@
 [user]
-    name = sqdnoises
+    name = sqd
     email = 85015626+sqdnoises@users.noreply.github.com
     signingkey = /home/sqd/.ssh/id_ed25519.pub
 [init]
@@ -10,7 +10,9 @@
     ui = auto  # Enable colored output
 [gpg]
     format = ssh
+[gpg "ssh"]
+    allowedSignersFile = ~/.ssh/allowed_signers
 [commit]
     gpgsign = true
 [format]
-    pretty = "format:%C(yellow)commit [%C(brightyellow)%h%C(yellow)]%C(auto)%d %C(brightblue)%ar (%ai)%nby%C(#ed55de)% G? %C(brightgreen)%aN <%ae>%n%C(#f25a5a)>>> %C(reset)%s%n"
+    pretty = "format:%C(yellow)commit [%C(#f9f1a5)%h%C(yellow)]%C(auto)%d %C(brightblue)%ar (%ai)%nby %C(brightgreen)%aN <%ae>%n%C(#f25a5a)>>> %C(reset)%s%n"
