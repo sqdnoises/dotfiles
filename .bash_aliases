@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Vencord installer
+alias vencord="sh -c \"\$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)\""
+
 # Pretty path print
 alias path='echo $PATH | tr -s ":" "\n"'
 
