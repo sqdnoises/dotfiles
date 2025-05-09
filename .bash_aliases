@@ -6,6 +6,9 @@ alias vencord="sh -c \"\$(curl -sS https://raw.githubusercontent.com/Vendicated/
 # Pretty path print
 alias path='echo $PATH | tr -s ":" "\n"'
 
+# Clear with cls
+alias cls="clear"
+
 # Easy exit
 alias e="exit"
 
