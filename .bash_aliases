@@ -12,6 +12,9 @@ alias cls="clear"
 # Easy exit
 alias e="exit"
 
+# Copy
+alias copy="xclip -selection clipboard"
+
 # bashrc editing
 alias bashrc="edit ~/.bashrc"
 
