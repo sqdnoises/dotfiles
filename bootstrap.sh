@@ -3,7 +3,7 @@
 # ==========================================
 # Configuration
 # ==========================================
-APT_PACKAGES="btop curl fastfetch ffmpeg gh git nano nmap python3 python3-pip python3-venv tree unzip wget zip"
+APT_PACKAGES="btop curl fastfetch ffmpeg gh git nano nmap python3 python3-pip python3-venv tree unzip wget xclip zip"
 
 # ==========================================
 # Colors & Variables
