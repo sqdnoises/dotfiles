@@ -4,7 +4,7 @@ Welcome to my dotfiles repository! This repository contains configurations and s
 ### The "copy, paste, and forget" command
 Run this one-liner to clone, bootstrap and cleanup automatically:
 ```bash
-git clone https://github.com/sqdnoises/dotfiles.git ~/dotfiles && cd ~/dotfiles && chmod +x ./bootstrap.sh && ./bootstrap.sh -y && cd - && rm -rf ~/dotfiles
+git clone https://github.com/sqdnoises/dotfiles.git ~/dotfiles && cd ~/dotfiles && chmod +x ./bootstrap.sh && ./bootstrap.sh -y && cd - > /dev/null && rm -rf ~/dotfiles
 ```
 
 ## Table of Contents
