@@ -11,5 +11,3 @@ source_if_exists() {
 # Check and source configuration files
 source_if_exists ~/.bash_aliases
 source_if_exists ~/.bash_exports
-source_if_exists ~/.bash_paths
-source_if_exists ~/.bash_prompt

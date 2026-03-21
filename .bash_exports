@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# export PATH= stuff goes in ~/.bash_paths
-
 # WSL
 if grep -qEi "(Microsoft|WSL)" /proc/version 2>/dev/null; then
     export EDITOR="code"
@@ -13,3 +11,11 @@ fi
 export HISTSIZE=10000
 export HISTFILESIZE=20000
 export HISTCONTROL=ignoreboth:erasedups
+
+# Paths
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Set a custom prompt
+# export PS1=""

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Vencord installer
-alias vencord="sh -c \"\$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)\""
+alias vencord="sh -c \"\$(curl -sS https://vencord.dev/install.sh)\""
 
 # Pretty path print
 alias path='echo $PATH | tr -s ":" "\n"'
@@ -33,10 +33,12 @@ alias la="ls -lAF"
 alias lsd="ls -lF | grep --color=never '^d'"
 
 # Always enable colored `grep` output
-# Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
 alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
+
+# btop force UTF
+alias btop="btop --utf-force"
 
 # Enable aliases to be sudo’ed
 alias sudo="sudo "
@@ -133,7 +135,7 @@ fi;
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 
-### wsl ###
+# WSL
 # Detect if running in WSL
 if grep -qEi "(Microsoft|WSL)" /proc/version 2>/dev/null; then
     ## Opening files
@@ -157,11 +159,11 @@ fi
 alias ed="edit"
 alias editor="edit"
 
-### yt-dlp video download ###
+# yt-dlp video download
 alias dlmp3='yt-dlp -f "bestaudio[ext=m4a]/bestaudio" --extract-audio --audio-format mp3 --audio-quality 0 -o "%(title)s - %(uploader)s [%(id)s] (audio).%(ext)s"'
 alias dlmp4='yt-dlp --merge-output-format mp4 -f "bestvideo+bestaudio[ext=m4a]/best" --embed-subs --write-thumbnail --embed-thumbnail --all-subs -o "%(title)s - %(uploader)s [%(id)s].%(ext)s"'
 
-### Python ###
+# Python aliases
 alias cv="create-venv"
 alias create-venv="python3 -m venv .venv --upgrade-deps"
 alias a="activate"
@@ -169,9 +171,8 @@ alias activate='f() { for venv in .venv venv */.venv */venv; do [ -d "$venv" ] &
 alias r="requirements"
 alias requirements="pip install -r requirements.txt"
 alias d="deactivate"
-#alias deactivate='echo -e "\e[31m<!> Not in a venv.\e[0m"'
 
-### apt ###
+# apt aliases
 alias i="install"
 alias install="sudo apt install"
 
