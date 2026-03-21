@@ -4,7 +4,7 @@ Welcome to my dotfiles repository! This repository contains configurations and s
 ### The "copy, paste, and forget" command
 Run this one-liner to clone, bootstrap and cleanup automatically:
 ```bash
-git clone https://github.com/sqdnoises/dotfiles.git ~/dotfiles && cd ~/dotfiles && chmod +x ./bootstrap.sh && ./bootstrap.sh -y && rm -rf ~/dotfiles
+git clone https://github.com/sqdnoises/dotfiles.git ~/dotfiles && cd ~/dotfiles && chmod +x ./bootstrap.sh && ./bootstrap.sh -y && cd - && rm -rf ~/dotfiles
 ```
 
 ## Table of Contents
@@ -25,32 +25,33 @@ dotfiles/
 ## Setup
 
 ### Prerequisites
-  - A Linux-based system (Debian/Ubuntu)
+ - A Linux-based system (Debian/Ubuntu)
 
 ### Installation
-1.  Clone this repository:
-    ```bash
-    git clone https://github.com/sqdnoises/dotfiles.git ~/dotfiles
-    cd ~/dotfiles
-    ```
+1. Clone this repository:
+  ```bash
+  git clone https://github.com/sqdnoises/dotfiles.git ~/dotfiles
+  cd ~/dotfiles
+  ```
 
-2.  Run the bootstrap script to copy your dotfiles:
-    ```bash
-    chmod +x ./bootstrap.sh
-    ./bootstrap.sh
-    ```
+2. Run the bootstrap script to copy your dotfiles:
+  ```bash
+  chmod +x ./bootstrap.sh
+  ./bootstrap.sh
+  ```
 
-3.  At the end of the script, it will provide `sudo apt ...` commands. Run it to install packages and/or update your system.
+3. At the end of the script, it will provide `sudo apt ...` commands. Run it to install packages and/or update your system.
 
-4.  Restart your terminal or source the `.bashrc` file:
-    ```bash
-    source ~/.bashrc
-    ```
+4. Restart your terminal or source the `.bashrc` file:
+  ```bash
+  source ~/.bashrc
+  ```
 
-5.  Delete the cloned repository: (optional)
-    ```bash
-    rm -rf ~/dotfiles
-    ```
+5. Navigate back and delete the cloned repository: (optional)
+  ```bash
+  cd -
+  rm -rf ~/dotfiles
+  ```
 
 ### Flags
 `-y/--yes`: Use `-y` to skip the overwrite confirmation prompt:
