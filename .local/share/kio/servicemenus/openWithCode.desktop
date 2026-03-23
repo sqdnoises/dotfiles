@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Open with Code
+Type=Service
+ServiceTypes=KonqPopupMenu/Plugin
+MimeType=all/allfiles;inode/directory;
+X-KDE-Priority=TopLevel
+Actions=openWithCode
+
+[Desktop Action openWithCode]
+Name=Open with Code
+Icon=vscode
+Exec=code %F
+  
